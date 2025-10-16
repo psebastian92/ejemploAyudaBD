@@ -1,0 +1,91 @@
+/* === Fondo general tipo red social === */
+body {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  background: linear-gradient(to bottom right, #f5f7fa, #e4e7eb);
+  margin: 0;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* === Título del muro === */
+h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #262626;
+  margin-bottom: 25px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.05);
+}
+
+/* === Contenedor general === */
+.comentarios-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* === Cada comentario === */
+.comentario {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease-in-out;
+}
+.comentario:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* === Autor del comentario === */
+.autor {
+  font-weight: 600;
+  font-size: 15px;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+/* === Texto del comentario === */
+.texto {
+  font-size: 17px; /* 🔹 Más grande y legible */
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin-bottom: 8px;
+}
+
+/* === Fecha del comentario === */
+.fecha {
+  display: flex;
+  align-items: center;
+  font-size: 11px; /* 🔹 Mucho más pequeña */
+  color: #9a9a9a; /* 🔹 Gris suave */
+  gap: 4px;
+  margin-top: 3px;
+  opacity: 0.8;
+}
+.fecha img,
+.fecha svg,
+.fecha span {
+  width: 12px;
+  height: 12px;
+  opacity: 0.7;
+}
+
+/* === Enlace volver === */
+a[href*="index.jsp"] {
+  margin-top: 35px;
+  font-size: 14px;
+  color: #0095f6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+a[href*="index.jsp"]:hover {
+  color: #0073cc;
+  text-decoration: underline;
+}

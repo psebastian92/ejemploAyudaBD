@@ -1,0 +1,80 @@
+/* Estilo general */
+body {
+	font-family: 'Roboto', sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #fafafa;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+	padding-top: 40px;
+	box-sizing: border-box;
+}
+/* Título */
+h1 {
+	font-size: 24px;
+	color: #262626;
+	font-weight: 600;
+	text-align: center;
+	margin-bottom: 20px;
+}
+/* Formulario */
+form {
+	background-color: #fff;
+	padding: 40px 30px;
+	border: 1px solid #dbdbdb;
+	border-radius: 8px;
+	width: 100%;
+	max-width: 350px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+	display: flex;
+	flex-direction: column;
+}
+/* Inputs y textarea */
+input, textarea {
+	width: 100% !important;
+	resize: vertical;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 15px;
+	border: 1px solid #dbdbdb;
+	border-radius: 4px;
+	background-color: #fafafa;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+/* Botón estilo Instagram */
+button {
+	background-color: #0095f6;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	padding: 10px;
+	font-weight: 600;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+button:hover {
+	background-color: #007dc1;
+}
+/* Link Ver comentarios */
+a[href*="ComentarioServlet"] {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	text-decoration: none;
+	color: #00376b;
+	font-size: 14px;
+	font-weight: 500;
+	margin-top: 20px;
+	transition: color 0.3s;
+}
+a[href*="ComentarioServlet"]:hover {
+	color: #1a5ea6;
+	text-decoration: underline;
+}
+a[href*="ComentarioServlet"] i {
+	font-size: 16px;
+}
