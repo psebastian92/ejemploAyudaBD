@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Scanner;
 
 /**
  * Clase encargada de manejar la conexión con la base de datos MySQL y realizar
@@ -17,6 +18,7 @@ public class ConexionBD {
 
 	// Conexión estática para que pueda ser reutilizada
 	static Connection conexion = null;
+	static Scanner entrada = new Scanner(System.in);
 
 	/**
 	 * Método que establece la conexión con la base de datos.
@@ -90,8 +92,8 @@ public class ConexionBD {
 	}
 
 	/**
-	 * Método para realizar la lectura de datos desde la base. Se
-	 * implementa con una consulta SELECT.
+	 * Método para realizar la lectura de datos desde la base. Se implementa con una
+	 * consulta SELECT.
 	 */
 	public static void lectura() {
 		// Declaramos las variables necesarias para la conexión y la consulta
@@ -115,6 +117,7 @@ public class ConexionBD {
 			// 5️⃣ Recorrer los resultados fila por fila
 			System.out.println("\n=== 📋 LISTA DE COMENTARIOS ===");
 			while (resultados.next()) {
+				int id = resultados.getInt("id");
 				String autor = resultados.getString("autor");
 				String comentario = resultados.getString("comentario");
 				Timestamp fechaHora = resultados.getTimestamp("fecha_hora");
@@ -127,6 +130,7 @@ public class ConexionBD {
 				}
 
 				// Mostrar en consola
+				System.out.println("ID: " + id);
 				System.out.println("👤 " + autor);
 				System.out.println("💬 " + comentario);
 				System.out.println("🕒 " + fechaFormateada);
@@ -153,11 +157,98 @@ public class ConexionBD {
 		}
 	}
 
+	public static void eliminar() throws SQLException {
+
+		// 1️⃣ Conectarse a la base de datos
+		obtenerConexion();
+
+		System.out.println("Qué comentario desea eliminar?");
+		lectura();
+		int id = entrada.nextInt();
+
+		// 2️⃣ Consulta SQL con parámetro dinámico
+		String sql = "DELETE FROM datosmuro WHERE id = ?";
+
+		// 3️⃣ Crear el PreparedStatement
+		try (PreparedStatement declaracionPreparada = conexion.prepareStatement(sql)) {
+
+			// 4️⃣ Reemplazar el ? con el valor real
+			declaracionPreparada.setInt(1, id);
+
+			// 5️⃣ Ejecutar la eliminación
+			int filas = declaracionPreparada.executeUpdate();
+
+			// 6️⃣ Confirmar resultado
+			if (filas > 0) {
+				System.out.println("✅ Registro con ID " + id + " eliminado correctamente.");
+			} else {
+				System.out.println("⚠️ No se encontró ningún registro con ID " + id + ".");
+			}
+		} finally {
+			// 7️⃣ Cerrar la conexión
+			if (conexion != null)
+				conexion.close();
+		}
+	}
+
+	public static void editar() throws SQLException {
+		// Se llama a lectura, para obtener datos existentes.
+	    lectura();
+
+	    // Después de lectura(), la conexión se cierra. Reconectamos:
+	    obtenerConexion();
+
+	    System.out.println("Ingrese el ID del registro que desea editar:");
+	    int id = entrada.nextInt();
+	    entrada.nextLine(); // limpiar buffer
+
+	    System.out.println("¿Qué desea editar?\nA: Autor\nB: Comentario");
+	    char opcion = entrada.next().charAt(0);
+	    entrada.nextLine(); // limpiar buffer
+
+	    String sql = "";
+	    String nuevoValor = "";
+
+	    switch (opcion) {
+	        case 'a':
+	        case 'A':
+	            System.out.println("Ingrese el nuevo autor:");
+	            nuevoValor = entrada.nextLine();
+	            sql = "UPDATE datosmuro SET autor = ? WHERE id = ?";
+	            break;
+	        case 'b':
+	        case 'B':
+	            System.out.println("Ingrese el nuevo comentario:");
+	            nuevoValor = entrada.nextLine();
+	            sql = "UPDATE datosmuro SET comentario = ? WHERE id = ?";
+	            break;
+	        default:
+	            System.out.println("Opción incorrecta");
+	            return;
+	    }
+
+	    try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+	        ps.setString(1, nuevoValor);
+	        ps.setInt(2, id);
+
+	        int filas = ps.executeUpdate();
+	        if (filas > 0)
+	            System.out.println("✅ Registro con ID " + id + " actualizado correctamente.");
+	        else
+	            System.out.println("⚠️ No se encontró ningún registro con ID " + id + ".");
+	    } finally {
+	        if (conexion != null) conexion.close();
+	    }
+	}
+
+
 	/**
 	 * Método principal de prueba. Permite comprobar la conexión.
 	 */
 	public static void main(String[] args) throws SQLException {
 		// alta(); // Descomentar para probar la carga de datos
-		lectura(); // Descomentar para probar la lectura de datos
+		//lectura(); // Descomentar para probar la lectura de datos
+		//eliminar();
+		editar();
 	}
 }
