@@ -36,19 +36,16 @@ public class LeerServlet extends HttpServlet {
             String sql = "SELECT id, autor, comentario, fecha_hora FROM datosmuro";
 
             // 4️⃣ Ejecutar la consulta y guardar los datos obtenidos en el ResultSet
-            resultados = declaracion.executeQuery(sql);
-
+         
             // 5️⃣ Enviar los datos obtenidos hacia una página JSP
             // Guardamos el conjunto de resultados como atributo para poder leerlo desde la vista
-            request.setAttribute("conjuntoResultados", resultados);
-
+          
             // Redirigimos a la página JSP que mostrará los datos
-            request.getRequestDispatcher("vistas/muro.jsp").forward(request, response);
-
+          
         } catch (SQLException e) {
-            // Si ocurre un error en cualquier paso, lo mostramos por consola
-            e.printStackTrace();
-
+          
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("/vistas/error.jsp").forward(request, response);
         } finally {
             // 6️⃣ Cerramos los recursos para liberar memoria y evitar errores de conexión
 

@@ -29,7 +29,7 @@ public class AltaServlet extends HttpServlet {
 		try (Connection conexion = ConexionBD.obtenerConexion()) {
 
 		    // Paso 2: preparar la consulta SQL (con ? para los valores dinámicos)
-		    String sql = "INSERT INTO datosmuro (autor, comentario) VALUES (?, ?)";
+		    String sql = "INSERT INTO datosmuros (autor, comentario) VALUES (?, ?)";
 
 		    // Paso 3: crear el PreparedStatement
 		    try (PreparedStatement declaracionPreparada = conexion.prepareStatement(sql)) {
@@ -48,6 +48,7 @@ public class AltaServlet extends HttpServlet {
 		            System.out.println("Datos guardados correctamente!");
 		            request.getRequestDispatcher("/vistas/index.jsp").forward(request, response);
 		        } else {
+		        
 		            response.sendRedirect(request.getContextPath() + "/vistas/error.jsp");
 		        }
 		    }
@@ -55,7 +56,8 @@ public class AltaServlet extends HttpServlet {
 		} catch (SQLException e) {
 		    // Paso 7: manejo de errores
 		    e.printStackTrace();
-		    response.sendRedirect(request.getContextPath() + "/vistas/error.jsp");
+		    request.setAttribute("error", e.getMessage());
+		    request.getRequestDispatcher("/vistas/error.jsp").forward(request, response);
 		}
 
 	
